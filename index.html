@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dunia Tekanan Gas</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --background-color: #f4f4f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --nav-text: #ffffff;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #1a1f2c;
+            --secondary-color: #2d3748;
+            --background-color: #121212;
+            --text-color: #e5e5e5;
+            --card-bg: #1e1e1e;
+            --nav-text: #ffffff;
+            --shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: #fff;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #66bb6a;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--nav-text);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: var(--transition);
+            margin: 5px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: var(--transition);
+        }
+
+        #calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        #calculator input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        #calculator button {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #calculator button:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 80%;
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            section {
+                padding: 20px 10px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <header class="fade-in">
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider"></div>
+            </label>
+        </div>
+        <h1>Tekanan Gas</h1>
+    </header>
+    <nav>
+        <div class="nav-container">
+            <a href="#teori" class="nav-link">Teori</a>
+            <a href="#pengertian" class="nav-link"  >Pengertian</a>
+            <a href="#ciri-ciri" class="nav-link">Ciri-Ciri</a>
+            <a href="#contoh" class="nav-link">Contoh</a>
+            <a href="#rumus" class="nav-link">Rumus</a>
+            <a href="#penerapan" class="nav-link">Penerapan</a>
+            <a href="#interaktif" class="nav-link">Interaktif</a>
+            <a href="#tentang" class="nav-link">Tentang Kami</a>
+        </div>
+    </nav>
+
+    <section id="teori" data-aos="fade-up">
+        <h2>Konsep Dasar Tekanan Gas</h2>
+        <div class="card">
+            <h3>Hukum Boyle</h3>
+            <div class="image-container">
+                <img src="https://buguruku.com/wp-content/uploads/2023/06/200.jpg" alt="Ilustrasi Hukum Boyle" loading="lazy">
+            </div>
+            <p>Ketika suhu tetap, tekanan gas berbanding terbalik dengan volume gas.</p>
+        </div>
+        <div class="card">
+            <h3>Hukum Charles</h3>
+            <div class="image-container">
+                <img src="https://asset.kompas.com/crops/tFkgsoinsizVKkyUup_VFsmkFBo=/7x39:871x615/490x326/data/photo/2022/09/13/631fe8ccd3a44.jpg" alt="Ilustrasi Hukum Charles" loading="lazy">
+            </div>
+            <p>Volume gas berbanding lurus dengan suhu mutlaknya jika tekanan tetap.</p>
+        </div>
+        <div class="card">
+            <h3>Hukum Gay-Lussac</h3>
+            <div class="image-container">
+                <img src="http://2.bp.blogspot.com/-NMj2nbVyqGg/VKphHseQumI/AAAAAAAAAg8/URcwwGuhmZA/s1600/015-hukum-boyle-gay-lussac-rumus-persamaan-gas-ideal.jpg" alt="Ilustrasi Hukum Gay-Lussac" loading="lazy">
+            </div>
+            <p>Tekanan gas berbanding lurus dengan suhu mutlaknya jika volume tetap.</p>
+        </div>
+    </section>
+
+    <section id="pengertian" data-aos="fade-up">
+        <h2>Pengertian Tekanan Gas</h2>
+        <div class="card">
+            <div class="image-container">
+                <img src="https://asset.kompas.com/crops/5NZUPxufELwdv5gdB4CeX3QmQ4Y=/0x55:510x395/750x500/data/photo/2022/02/17/620dd4caa57ec.png" alt="Ilustrasi Tekanan Gas" loading="lazy">
+            </div>
+            <p>Tekanan gas adalah gaya yang dihasilkan oleh partikel gas ketika mereka bertumbukan dengan dinding wadahnya. Tekanan ini bergantung pada jumlah partikel, suhu, dan volume gas.</p>
+        </div>
+    </section>
+
+    <section id="ciri-ciri" data-aos="fade-up">
+        <h2>Ciri-Ciri Tekanan Gas</h2>
+        <div class="card">
+            <ul>
+                <li>Bergantung pada suhu, volume, dan jumlah partikel gas.</li>
+                <li>Tekanan meningkat seiring kenaikan suhu jika volume tetap.</li>
+                <li>Dapat diukur menggunakan alat seperti barometer atau manometer.</li>
+                <li>Sifatnya dinamis karena partikel gas terus bergerak.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contoh" data-aos="fade-up">
+        <h2>Contoh Penerapan Tekanan Gas</h2>
+        <div class="card">
+            <ul>
+                <li><strong>Balon:</strong> Udara di dalam balon menekan dinding balon, sehingga balon tetap mengembang.</li>
+                <li><strong>Ban Kendaraan:</strong> Udara dalam ban menciptakan tekanan untuk menjaga kestabilan kendaraan.</li>
+                <li><strong>Tabung Gas:</strong> Gas LPG dipadatkan dalam tabung untuk memaksimalkan penyimpanan.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="rumus" data-aos="fade-up">
+        <h2>Rumus Tekanan Gas</h2>
+        <div class="card">
+            <p>Berikut adalah rumus yang digunakan dalam hukum gas:</p>
+            <h3>Hukum Boyle:</h3>
+            <p>PV = konstanta (P = tekanan, V = volume)</p>
+            <p>Artinya, ketika suhu tetap, tekanan gas berbanding terbalik dengan volumenya. Jika volume gas mengecil, tekanan akan meningkat, dan sebaliknya.</p>
+            
+            <h3>Hukum Charles:</h3>
+            <p>V/T = konstanta (V = volume, T = suhu mutlak)</p>
+            <p>Artinya, volume gas berbanding lurus dengan suhu mutlaknya jika tekanan tetap.</p>
+            
+            <h3>Hukum Gay-Lussac:</h3>
+            <p>P/T = konstanta (P = tekanan, T = suhu mutlak)</p>
+            <p>Artinya, tekanan gas berbanding lurus dengan suhu mutlaknya jika volume tetap.</p>
+        </div>
+    </section>
+
+    <section id="penerapan" data-aos="fade-up">
+        <h2>Penerapan Tekanan Gas</h2>
+        <div class="card">
+            <p><strong>Ban Kendaraan:</strong> Tekanan udara dalam ban menjaga kestabilan kendaraan.</p>
+        </div>
+        <div class="card">
+            <p><strong>Tabung Gas LPG:</strong> Gas dalam tabung dipadatkan agar lebih banyak gas dapat disimpan.</p>
+        </div>
+        <div class="card">
+            <p><strong>Alat Ukur Tekanan:</strong> Barometer dan manometer digunakan untuk mengukur tekanan udara atau gas.</p>
+        </div>
+    </section>
+
+    <section id="interaktif" data-aos="fade-up">
+        <h2>Halaman Interaktif</h2>
+        <div id="calculator" class="card">
+            <h3>Kalkulator Tekanan Gas</h3>
+            <label for="pressure">Tekanan (P):</label>
+            <input type="number" id="pressure" placeholder="Tekanan (Pa)">
+            <label for="volume">Volume (V):</label>
+            <input type="number" id="volume" placeholder="Volume (m³)">
+            <label for="temperature">Suhu (T):</label>
+            <input type="number" id="temperature" placeholder="Suhu (K)">
+            <button onclick="calculate()">Hitung</button>
+            <p id="result"></p>
+        </div>
+    </section>
+
+    <section id="tentang" data-aos="fade-up">
+        <h2>Tentang Kami</h2>
+        <div class="card">
+            <p>Website ini dibuat oleh Dewa rafael ghany kelas IX A, website ini menjelaskan konsep tekanan gas secara sederhana dan menarik.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Dunia Tekanan Gas. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Dark mode toggle
+        const toggleSwitch = document.querySelector('#checkbox');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme);
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Keep existing calculator function
+        function calculate() {
+            const P = parseFloat(document.getElementById('pressure').value);
+            const V = parseFloat(document.getElementById('volume').value);
+            const T = parseFloat(document.getElementById('temperature').value);
+
+            if (P && V && T) {
+                const result = (P * V) / T;
+                document.getElementById('result').innerText = `Hasil Perhitungan: ${result.toFixed(2)}`;
+            } else {
+                document.getElementById('result').innerText = 'Mohon masukkan semua nilai.';
+            }
+        }
+    </script>
+</body>
+</html>
